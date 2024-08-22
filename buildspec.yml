@@ -7,8 +7,8 @@ phases:
   build:
     commands:
       - echo Building the Docker image...
-      - echo ID_5rntX5iD
-      - 'docker build -t $IMAGE_NAME:$IMAGE_TAG -f docker/Dockerfile .'
+      - echo ID_BBLFvmjf
+      - 'docker build -t $IMAGE_NAME:$IMAGE_TAG -f Dockerfile .'
       - 'docker tag $IMAGE_NAME:$IMAGE_TAG $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO:$IMAGE_TAG'
       - echo Building Maven project...
       - mvn clean package
