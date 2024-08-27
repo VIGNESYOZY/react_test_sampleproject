@@ -2,7 +2,7 @@ version: '0.2'
 phases:
   install:
     runtime-versions:
-      nodejs: 14.21.3
+      nodejs: 16.20.2
     commands:
       - echo Installing dependencies...
       - npm install --force
@@ -14,10 +14,10 @@ phases:
     commands:
       - echo Creating tar.gz archive of build files...
       - cd build
-      - tar -czvf ../PLN5000114.tar.gz *
+      - tar -czvf ../PLN5000119.tar.gz *
   post_build:
     commands:
       - echo Pushing artifacts...
 artifacts:
   files:
-    - PLN5000114.tar.gz
+    - PLN5000119.tar.gz
