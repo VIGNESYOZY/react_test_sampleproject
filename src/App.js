@@ -6,7 +6,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-    {aws error}
+   
         <h1>this is main branch </h1>
       </header>
       
