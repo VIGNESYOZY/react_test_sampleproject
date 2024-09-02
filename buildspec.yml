@@ -1,22 +1,23 @@
-version: '0.2'
+version: "0.2"
 env:
   variables:
     DOCKER_BUILDKIT: 1
 phases:
   pre_build:
     commands:
-      - echo Logging in to Amazon ECR...
-      - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+      - echo Logging in to Amazon ECR Public...
+      - echo AWS Region: $AWS_REGION
+      - aws ecr-public get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin public.ecr.aws/v5x7e2a4/$ECR_REPO
   build:
     commands:
       - echo Building the Docker image...
-      - echo ID_k4k6YvT3
-      - 'docker build -t $IMAGE_NAME:$IMAGE_TAG -f Dockerfile .'
-      - 'docker tag $IMAGE_NAME:$IMAGE_TAG $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO:$IMAGE_TAG'
+      - echo $(generateRandomString)
+      - docker build -t $IMAGE_NAME:$IMAGE_TAG -f Dockerfile .
+      - docker tag $IMAGE_NAME:$IMAGE_TAG public.ecr.aws/v5x7e2a4/$ECR_REPO:$IMAGE_TAG
   post_build:
     commands:
-      - echo Pushing the Docker image to ECR...
-      - 'docker push $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO:$IMAGE_TAG'
+      - echo Pushing the Docker image to Amazon ECR Public...
+      - docker push public.ecr.aws/v5x7e2a4/$ECR_REPO:$IMAGE_TAG
 artifacts:
   files:
-    - none
+    - "none"
