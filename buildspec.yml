@@ -1,22 +1,19 @@
-version: 0.2
-
+version: '0.2'
 phases:
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
       - echo $AWS_REGION
       - aws ecr-public get-login-password --region $AWS_REGION --debug | docker login --username AWS --password-stdin public.ecr.aws/v5x7e2a4/$ECR_REPO
-
   build:
     commands:
       - echo Building the Docker image...
-      - docker build -t $IMAGE_NAME:$IMAGE_TAG -f Dockerfile .
-      - docker tag $IMAGE_NAME:$IMAGE_TAG public.ecr.aws/v5x7e2a4/$ECR_REPO:$IMAGE_TAG
-
+      - echo ID_GBt64F42
+      - 'docker build -t $IMAGE_NAME:$IMAGE_TAG -f Dockerfile .'
+      - 'docker tag $IMAGE_NAME:$IMAGE_TAG public.ecr.aws/v5x7e2a4/$ECR_REPO:$IMAGE_TAG'
   post_build:
     commands:
       - echo Pushing the Docker image to ECR...
-      - docker push public.ecr.aws/v5x7e2a4/$ECR_REPO:$IMAGE_TAG
-
+      - 'docker push public.ecr.aws/v5x7e2a4/$ECR_REPO:$IMAGE_TAG'
 artifacts:
   files: none
