@@ -8,7 +8,7 @@ phases:
   build:
     commands:
       - echo Building the Docker image...
-      - echo ID_Qhz1mUHk
+      - echo ID_sXDl7OdK
       - 'docker build -t $IMAGE_NAME:$IMAGE_TAG -f Dockerfile .'
       - 'docker tag $IMAGE_NAME:$IMAGE_TAG public.ecr.aws/v5x7e2a4/$ECR_REPO:$IMAGE_TAG'
   post_build:
