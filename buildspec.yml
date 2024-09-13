@@ -1,4 +1,10 @@
 version: '0.2'
+env:
+  variables:
+    AWS_ACCESS_KEY_ID: "$AWS_ACCESS_KEY_ID"
+    AWS_SECRET_ACCESS_KEY: "$AWS_SECRET_ACCESS_KEY"
+    AWS_REGION: "$AWS_REGION"
+
 phases:
   install:
     runtime-versions:
