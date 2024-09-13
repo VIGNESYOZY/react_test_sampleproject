@@ -1,9 +1,4 @@
 version: '0.2'
-env:
-  variables:
-    AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
-    AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
-    AWS_REGION: $AWS_REGION
 phases:
   install:
     runtime-versions:
@@ -17,13 +12,13 @@ phases:
       - npm run build --verbose
   build:
     commands:
-      - echo ID_FxtjAyyx
+      - echo ID_8BuUE127
       - echo Creating tar.gz archive of build files...
       - cd build
-      - tar -czvf ../PLN5000257.tar.gz *
+      - tar -czvf ../PLN5000258.tar.gz *
   post_build:
     commands:
       - echo Pushing artifacts...
 artifacts:
   files:
-    - PLN5000257.tar.gz
+    - PLN5000258.tar.gz
