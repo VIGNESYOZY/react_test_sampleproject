@@ -12,7 +12,7 @@ steps:
         git config --global credential.helper 'store --file=/root/.git-credentials'
         echo "https://${_GITHUB_PAT}:@github.com/${_GITHUB_USERNAME}/${_GITHUB_REPO}" > /root/.git-credentials
         TMP=$(mktemp -d)
-        git clone -b ${_BRANCH_NAME} https://github.com/${_GITHUB_USERNAME}/${_GITHUB_REPO} ${TMP} >/dev/null 2>&1
+        git clone https://github.com/${_GITHUB_USERNAME}/${_GITHUB_REPO} ${TMP} >/dev/null 2>&1
         cd ${TMP}
 
   # Phase: Install dependencies
