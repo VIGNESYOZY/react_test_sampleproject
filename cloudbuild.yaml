@@ -11,8 +11,7 @@ steps:
         echo "Cloning the repository..."
         git config --global credential.helper 'store --file=/root/.git-credentials'
         echo "https://${_GITHUB_PAT}:@github.com/${_GITHUB_USERNAME}/${_GITHUB_REPO}" > /root/.git-credentials
-        git clone -b ${_BRANCH} https://github.com/${_GITHUB_USERNAME}/${_GITHUB_REPO}
-
+        git clone -b ${_BRANCH_NAME} https://github.com/${_GITHUB_USERNAME}/${_GITHUB_REPO}
   # Phase: Install dependencies
   - name: 'node:18.20.4'  # Use Node.js 18.20.4 image
     entrypoint: 'bash'
@@ -22,7 +21,6 @@ steps:
         echo "Installing dependencies..."
         cd ${_REPO_NAME} # Change to the cloned repo directory
         npm install --force
-
   # Phase: Pre-build
   - name: 'node:18.20.4'
     entrypoint: 'bash'
@@ -32,7 +30,6 @@ steps:
         echo "Building project..."
         cd ${_REPO_NAME}  # Change to the cloned repo directory
         npm run build --verbose
-
   # Phase: Log Node.js version
   - name: 'node:18.20.4'
     entrypoint: 'bash'
@@ -41,7 +38,6 @@ steps:
       - |
         echo "Node.js version:"
         node -v  # Log the Node.js version
-
   # Phase: Create tar.gz archive of build files
   - name: 'node:18.20.4'
     entrypoint: 'bash'
@@ -57,7 +53,6 @@ steps:
           echo "Error: Build directory does not exist."
           exit 1  # Exit with an error if the directory doesn't exist
         fi
-
   # Phase: Upload to Google Cloud Storage
   - name: 'gcr.io/cloud-builders/gsutil'
     entrypoint: 'bash'
