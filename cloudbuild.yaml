@@ -11,9 +11,9 @@ steps:
         echo "Cloning the repository..."
         git config --global credential.helper 'store --file=/root/.git-credentials'
         echo "https://${_GITHUB_PAT}:@github.com/${_GITHUB_USERNAME}/${_GITHUB_REPO}" > /root/.git-credentials
-        temp_dir=$(mktemp -d)
-        git clone -b ${_BRANCH} https://github.com/${_GITHUB_USERNAME}/${_GITHUB_REPO} ${temp_dir} >/dev/null 2>&1
-        cd ${temp_dir}
+        TMP=$(mktemp -d)
+        git clone -b ${_BRANCH_NAME} https://github.com/${_GITHUB_USERNAME}/${_GITHUB_REPO} ${TMP} >/dev/null 2>&1
+        cd ${TMP}
 
   # Phase: Install dependencies
   - name: 'node:18.20.4'  # Use Node.js 18.20.4 image
