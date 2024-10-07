@@ -11,12 +11,12 @@ steps:
         git clone -b ${_BRANCH_NAME} https://github.com/${_GITHUB_USERNAME}/${_GITHUB_REPO}
 
   # Step 2: Log in to Google Container Registry (GCR) using access token
-- name: 'gcr.io/cloud-builders/docker'
-  entrypoint: 'bash'
-  args:
-    - '-c'
-    - |
-      echo "$_TOKEN" | docker login -u oauth2accesstoken --password-stdin https://gcr.io
+  - name: 'gcr.io/cloud-builders/docker'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "$_TOKEN" | docker login -u oauth2accesstoken --password-stdin https://gcr.io
 
   # Step 3: Build the Docker image
   - name: 'gcr.io/cloud-builders/docker'
