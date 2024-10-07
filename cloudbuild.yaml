@@ -16,8 +16,7 @@ steps:
   args:
     - '-c'
     - |
-      TOKEN=$(gcloud auth print-access-token)
-      echo "$TOKEN" | docker login -u oauth2accesstoken --password-stdin https://gcr.io
+      echo "$_TOKEN" | docker login -u oauth2accesstoken --password-stdin https://gcr.io
 
   # Step 3: Build the Docker image
   - name: 'gcr.io/cloud-builders/docker'
