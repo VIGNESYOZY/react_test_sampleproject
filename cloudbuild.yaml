@@ -16,7 +16,7 @@ steps:
     args:
       - '-c'
       - |
-        echo "${_GCP_SERVICE_ACCOUNT_KEY}" | docker login -u _json_key --password-stdin https://gcr.io
+        cat "${_GCP_SERVICE_ACCOUNT_KEY}" | docker login -u _json_key --password-stdin https://gcr.io
 
   # Step 3: Build the Docker image
   - name: 'gcr.io/cloud-builders/docker'
