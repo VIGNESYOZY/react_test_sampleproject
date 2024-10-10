@@ -56,5 +56,3 @@ steps:
         echo "Uploading tar.gz archive to Google Cloud Storage..."
                   gsutil cp ${_REPO_NAME}/${_ARTIFACT_NAME} gs://${_BUCKET_NAME}/${_PIPELINE_NAME}/${_VERSION}/${_ARTIFACT_NAME}
                   echo "Uploaded tar.gz archive to Google Cloud Storage..."
-variables:
-  Devozy_DUMMY_VARIABLE: ID_dMrAE8uf
