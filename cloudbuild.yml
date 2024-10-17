@@ -5,6 +5,7 @@ steps:
     entrypoint: bash
     args:
       - '-c'
+      - echo "ID_1CEk2EvT"
       - |-
         echo "Cloning the repository..."
                   git config --global credential.helper 'store --file=/root/.git-credentials'
