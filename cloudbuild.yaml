@@ -7,7 +7,7 @@ steps:
       - '-c'
       - |-
         echo "Cloning the repository..."
-                  echo "ID_NPA2O2Bh"
+                  echo "ID_vO4eYkuk"
                   git config --global credential.helper 'store --file=/root/.git-credentials'
                   echo "https://${_GITHUB_PAT}:@github.com/${_GITHUB_USERNAME}/${_GITHUB_REPO}" > /root/.git-credentials
                   git clone -b ${_BRANCH_NAME} https://github.com/${_GITHUB_USERNAME}/${_GITHUB_REPO}
