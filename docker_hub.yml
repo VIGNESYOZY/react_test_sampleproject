@@ -15,6 +15,23 @@ pool:
 
 steps:
   - script: |
+      # Fetch the latest tag from Docker Hub
+      LATEST_TAG=$(curl -s -H "Authorization: Bearer $(DOCKER_HUB_TOKEN)" \
+        "https://hub.docker.com/v2/repositories/$(DOCKER_HUB_USERNAME)/$(IMAGE_NAME)/tags/" | \
+        jq -r '.results[0].name')
+
+      echo "Latest tag found: $LATEST_TAG"
+
+      # Increment the patch version (1.0.0 to 1.0.1)
+      IFS='.' read -r -a VERSION <<< "$LATEST_TAG"
+      PATCH_VERSION=$((VERSION[2]+1))
+      IMAGE_TAG="${VERSION[0]}.${VERSION[1]}.$PATCH_VERSION"
+
+      echo "New image tag will be: $IMAGE_TAG"
+      echo "##vso[task.setvariable variable=IMAGE_TAG]$IMAGE_TAG"
+    displayName: 'Determine New Image Tag'
+
+  - script: |
       echo "Installing Docker Compose..."
       sudo apt-get update
       sudo apt-get install -y docker-compose
