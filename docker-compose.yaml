@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .              # Build context is the current directory
+      dockerfile: Dockerfile   # Path to the Dockerfile
+    image: ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${IMAGE_TAG}  # Specify Docker Hub repo and tag
+    ports:
+      - "80:80"              # Map port 80 in the container to port 8080 on the host
+
