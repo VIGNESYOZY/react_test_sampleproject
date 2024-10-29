@@ -1,0 +1,37 @@
+trigger:
+  branches:
+    include:
+      - main # Trigger the pipeline on changes to the main branch
+
+variables:
+  DOCKER_HUB_USERNAME: mordenwebdev # Set these variables in Azure DevOps Pipeline settings
+  DOCKER_HUB_TOKEN: dckr_pat_F78dLI8J06D19m7LdWl5BG4OgGQ # Use Docker Hub Access Token instead of password
+  IMAGE_NAME: private_azure
+  BUILD_ID: $(Build.BuildId) # Use Azure DevOps build ID
+  IMAGE_TAG: compose
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+  - script: |
+      echo "Installing Docker Compose..."
+      sudo apt-get update
+      sudo apt-get install -y docker-compose
+    displayName: 'Install Docker Compose'
+
+  - script: |
+      echo "Logging in to Docker Hub..."
+      echo "$(DOCKER_HUB_TOKEN)" | docker login -u $(DOCKER_HUB_USERNAME) --password-stdin # Log in to Docker Hub
+    displayName: 'Login to Docker Hub'
+
+  - script: |
+      echo "Building and pushing Docker image using Docker Compose..."
+      docker-compose build # Build the image using docker-compose
+      
+      echo "Logging into Docker Hub..."
+      echo "$(DOCKER_HUB_TOKEN)" | docker login -u $(DOCKER_HUB_USERNAME) --password-stdin
+
+      echo "Pushing Docker image to Docker Hub..."
+      docker-compose push
+    displayName: 'Build and Push Docker Image'
