@@ -8,7 +8,7 @@ variables:
   DOCKER_HUB_TOKEN: dckr_pat_F78dLI8J06D19m7LdWl5BG4OgGQ # Use Docker Hub Access Token instead of password
   IMAGE_NAME: private_azure
   BUILD_ID: $(Build.BuildId) # Use Azure DevOps build ID
-  IMAGE_TAG: compose
+  IMAGE_TAG: compose_github
 
 pool:
   vmImage: 'ubuntu-latest'
