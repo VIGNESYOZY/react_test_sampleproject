@@ -1,0 +1,64 @@
+options:
+  logging: CLOUD_LOGGING_ONLY
+
+steps:
+  # Step: Clone the repository using GitHub token passed as substitution
+  - name: 'gcr.io/cloud-builders/git'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "Cloning the repository..."
+        git config --global credential.helper 'store --file=/root/.git-credentials'
+        echo "https://${_GITHUB_PAT}:@github.com/${_GITHUB_USERNAME}/${_GITHUB_REPO}" > /root/.git-credentials
+        git clone -b ${_BRANCH_NAME} https://github.com/${_GITHUB_USERNAME}/${_GITHUB_REPO}
+  # Phase: Install dependencies
+  - name: 'node:18.20.4'  # Use Node.js 18.20.4 image
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "Installing dependencies..."
+        cd ${_REPO_NAME} # Change to the cloned repo directory
+        npm install --force
+  # Phase: Pre-build
+  - name: 'node:18.20.4'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "Building project..."
+        cd ${_REPO_NAME}  # Change to the cloned repo directory
+        npm run build --verbose
+  # Phase: Log Node.js version
+  - name: 'node:18.20.4'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "Node.js version:"
+        node -v  # Log the Node.js version
+  # Phase: Create tar.gz archive of build files
+  - name: 'node:18.20.4'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "Creating tar.gz archive of build files..."
+        if [ -d ${_REPO_NAME}/build ]; then  # Check if the build directory exists
+          cd ${_REPO_NAME}/build  # Change to the build directory
+          tar -czvf ../${_ARTIFACT_NAME} *  # Create the archive
+          echo "Tar file created at: $(pwd)/../${_ARTIFACT_NAME}"
+        else
+          echo "Error: Build directory does not exist."
+          exit 1  # Exit with an error if the directory doesn't exist
+        fi
+  # Phase: Upload to Google Cloud Storage
+  - name: 'gcr.io/cloud-builders/gsutil'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "Uploading tar.gz archive to Google Cloud Storage..."
+        gsutil cp ${_REPO_NAME}/${_ARTIFACT_NAME} gs://${_BUCKET_NAME}/${_PIPELINE_NAME}/${_VERSION}/${_ARTIFACT_NAME}  # Correct path to tar.gz
+        echo "Uploaded tar.gz archive to Google Cloud Storage..."
