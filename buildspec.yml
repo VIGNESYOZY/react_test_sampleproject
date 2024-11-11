@@ -2,7 +2,7 @@ version: 0.2
 
 env:
   variables:
-    SONAR_PROJECT_KEY: "sonar_test_aws"
+    SONAR_PROJECT_KEY: "sonar_test_aws_1"
     SONAR_TOKEN: "squ_a27cc0154f8c676964d974bd513d8094459a6220"
     SONAR_HOST_URL: "http://35.223.99.191:9000"
 
