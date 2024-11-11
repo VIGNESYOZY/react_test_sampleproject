@@ -2,9 +2,9 @@ version: 0.2
 
 env:
   variables:
-    SONAR_PROJECT_KEY: "SONAR_PROJECT_KEY"
-    SONAR_TOKEN: "SONAR_TOKEN"
-    SONAR_HOST_URL: "SONAR_HOST_URL"
+    SONAR_PROJECT_KEY: "sonar_test_aws"
+    SONAR_TOKEN: "squ_a27cc0154f8c676964d974bd513d8094459a6220"
+    SONAR_HOST_URL: "http://35.223.99.191:9000"
 
 phases:
   install:
@@ -28,9 +28,9 @@ phases:
   build:
     commands:
       - echo Running SonarQube analysis...
-      - export SONAR_PROJECT_KEY=sonar_test_aws
-      - export SONAR_TOKEN=squ_a27cc0154f8c676964d974bd513d8094459a6220
-      - export SONAR_HOST_URL=http://35.223.99.191:9000
+      - export SONAR_PROJECT_KEY=${SONAR_PROJECT_KEY}
+      - export SONAR_TOKEN=${SONAR_TOKEN}
+      - export SONAR_HOST_URL=${SONAR_HOST_URL}
       - sonar-scanner -D"sonar.projectKey=${SONAR_PROJECT_KEY}" -D"sonar.host.url=${SONAR_HOST_URL}" -D"sonar.login=${SONAR_TOKEN}" -X
       - echo Creating tar.gz archive of build files...
       - cd build
