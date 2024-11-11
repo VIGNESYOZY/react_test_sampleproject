@@ -13,6 +13,12 @@ phases:
   build:
     commands:
       - echo ID_6Mu3vA0y
+      - echo Setting up SonarQube scanner...
+      - export SONAR_TOKEN=squ_a27cc0154f8c676964d974bd513d8094459a6220 # replace with your SonarQube token or pass it as an environment variable
+      - export SONAR_PROJECT_KEY=test_sonaraws # replace with your SonarQube project key
+      - export SONAR_HOST_URL=http://35.223.99.191:9000 # replace with your SonarQube server URL
+      - echo Running SonarQube analysis...
+      - npx sonar-scanner -Dsonar.projectKey=$SONAR_PROJECT_KEY -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_TOKEN
       - echo Creating tar.gz archive of build files...
       - cd build
       - tar -czvf ../PLN6000155.tar.gz *
@@ -22,3 +28,4 @@ phases:
 artifacts:
   files:
     - PLN6000155.tar.gz
+
