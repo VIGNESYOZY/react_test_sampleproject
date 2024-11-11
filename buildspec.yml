@@ -18,7 +18,7 @@ phases:
       - export SONAR_PROJECT_KEY=test_sonaraws # replace with your SonarQube project key
       - export SONAR_HOST_URL=http://35.223.99.191:9000 # replace with your SonarQube server URL
       - echo Running SonarQube analysis...
-      - npx sonar-scanner -Dsonar.projectKey=$SONAR_PROJECT_KEY -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_TOKEN
+      - npx sonar-scanner -D"sonar.projectKey=${SONAR_PROJECT_KEY}" -D"sonar.host.url=${SONAR_HOST_URL}" -D"sonar.login=${SONAR_TOKEN}"
       - echo Creating tar.gz archive of build files...
       - cd build
       - tar -czvf ../PLN6000155.tar.gz *
