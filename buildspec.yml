@@ -1,4 +1,11 @@
-version: '0.2'
+version: 0.2
+
+env:
+  variables:
+    SONAR_PROJECT_KEY: "SONAR_PROJECT_KEY"
+    SONAR_TOKEN: "SONAR_TOKEN0"
+    SONAR_HOST_URL: "SONAR_HOST_URL"
+
 phases:
   install:
     runtime-versions:
@@ -6,19 +13,33 @@ phases:
     commands:
       - echo Installing dependencies...
       - npm install --force
+      - echo Installing unzip utility...
+      - yum install -y unzip
+      - echo Downloading SonarQube Scanner...
+      - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
+      - unzip sonar-scanner-cli-4.6.2.2472-linux.zip
+      - export PATH=$PATH:$(pwd)/sonar-scanner-4.6.2.2472-linux/bin
+
   pre_build:
     commands:
       - echo Building project...
       - npm run build --verbose
+
   build:
     commands:
-      - echo ID_6Mu3vA0y
+      - echo Running SonarQube analysis...
+      - export SONAR_PROJECT_KEY=${SONAR_PROJECT_KEY}
+      - export SONAR_TOKEN=${SONAR_TOKEN}
+      - export SONAR_HOST_URL=${SONAR_HOST_URL}
+      - sonar-scanner -D"sonar.projectKey=${SONAR_PROJECT_KEY}" -D"sonar.host.url=${SONAR_HOST_URL}" -D"sonar.login=${SONAR_TOKEN}" -X
       - echo Creating tar.gz archive of build files...
       - cd build
       - tar -czvf ../PLN6000155.tar.gz *
+
   post_build:
     commands:
       - echo Pushing artifacts...
+
 artifacts:
   files:
     - PLN6000155.tar.gz
