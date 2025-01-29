@@ -1,24 +1,23 @@
 version: '0.2'
+env:
+  variables:
+    DOCKER_BUILDKIT: 1
 phases:
-  install:
-    runtime-versions:
-      nodejs: 14.21.3
-    commands:
-      - echo Installing dependencies...
-      - npm install --force
   pre_build:
     commands:
-      - echo Building project...
-      - npm run build --verbose
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+      - echo Logging in to Docker Hub...
   build:
     commands:
-      - echo ID_XYQDMhqM
-      - echo Creating tar.gz archive of build files...
-      - cd build
-      - tar -czvf ../PLN6000366.tar.gz *
+      - echo Building the Docker image...
+      - echo ID_8aVB1ScE
+      - 'docker build -t $IMAGE_NAME:$IMAGE_TAG -f Dockerfile .'
+      - 'docker tag $IMAGE_NAME:$IMAGE_TAG $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO:$IMAGE_TAG'
   post_build:
     commands:
-      - echo Pushing artifacts...
+      - echo Pushing the Docker image to ECR...
+      - 'docker push $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO:$IMAGE_TAG'
 artifacts:
   files:
-    - PLN6000366.tar.gz
+    - none
