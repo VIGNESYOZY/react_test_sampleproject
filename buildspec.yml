@@ -11,13 +11,13 @@ phases:
   build:
     commands:
       - echo Building the Docker image...
-      - echo ID_4BrjDd1A
-      - 'docker build -t $IMAGE_NAME:$IMAGE_TAG -f Dockerfile .'
-      - 'docker tag $IMAGE_NAME:$IMAGE_TAG $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO:$IMAGE_TAG'
+      - echo ID_dI7ray0c
+      - docker build -t $IMAGE_NAME:$IMAGE_TAG -f Dockerfile .
+      - docker tag $IMAGE_NAME:$IMAGE_TAG $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO:$IMAGE_TAG
   post_build:
     commands:
       - echo Pushing the Docker image to ECR...
-      - 'docker push $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO:$IMAGE_TAG'
+      - docker push $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO:$IMAGE_TAG
 artifacts:
   files:
     - none
