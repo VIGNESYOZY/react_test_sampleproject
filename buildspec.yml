@@ -6,7 +6,7 @@ phases:
       - echo Logging in to Amazon ECR...
       - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 123456789012.dkr.ecr.us-east-1.amazonaws.com
       - IMAGE_NAME=my-react-app
-      - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_TAG="1.0.0"
       - ECR_REPO=my-react-repo
       - ECR_URI=428055055471.dkr.ecr.us-east-1.amazonaws.com/$ECR_REPO
       - echo Using image tag: $IMAGE_TAG
