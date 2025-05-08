@@ -3,17 +3,25 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - echo Starting Docker build phase...
-      - IMAGE_TAG=test-$(date +%s)
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 123456789012.dkr.ecr.us-east-1.amazonaws.com
+      - IMAGE_NAME=my-react-app
+      - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - ECR_REPO=my-react-repo
+      - ECR_URI=428055055471.dkr.ecr.us-east-1.amazonaws.com/$ECR_REPO
+      - echo Using image tag: $IMAGE_TAG
 
   build:
     commands:
       - echo Building Docker image...
-      - docker build -t my-react-app:$IMAGE_TAG .
+      - docker build -t $IMAGE_NAME:$IMAGE_TAG -f Dockerfile .
+      - docker tag $IMAGE_NAME:$IMAGE_TAG $ECR_URI:$IMAGE_TAG
 
   post_build:
     commands:
-      - echo Docker image my-react-app:$IMAGE_TAG built successfully.
+      - echo Pushing image to ECR...
+      - docker push $ECR_URI:$IMAGE_TAG
+      - echo Image successfully pushed to $ECR_URI:$IMAGE_TAG
 
 artifacts:
   files:
