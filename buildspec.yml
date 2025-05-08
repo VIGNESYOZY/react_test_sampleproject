@@ -12,7 +12,7 @@ phases:
   build:
     commands:
       - echo Building the Docker image...
-      - echo ID_eAWXuqaa
+      - echo ID_op1egHJu
       - docker build -t $IMAGE_NAME:$IMAGE_TAG -f Dockerfile .
       - docker tag $IMAGE_NAME:$IMAGE_TAG $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO:$IMAGE_TAG
   post_build:
