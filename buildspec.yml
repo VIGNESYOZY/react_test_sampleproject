@@ -1,24 +1,35 @@
 version: '0.2'
-env:
-  variables:
-    DOCKER_BUILDKIT: 1
 phases:
+  install:
+    runtime-versions:
+      nodejs: 22.14.0
+    commands:
+      - echo Installing unzip utility...
+      - (apt-get update && apt-get install -y unzip) || (yum install -y unzip)
+      - echo Downloading SonarQube Scanner...
+      - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
+      - unzip sonar-scanner-cli-4.6.2.2472-linux.zip
+      - export PATH=$PATH:$(pwd)/sonar-scanner-4.6.2.2472-linux/bin
+      - echo Running SonarQube analysis...
+      - export SONAR_PROJECT_KEY=${SONAR_PROJECT_KEY}
+      - export SONAR_TOKEN=${SONAR_TOKEN}
+      - export SONAR_HOST_URL=${SONAR_HOST_URL}
+      - sonar-scanner -D"sonar.projectKey=${SONAR_PROJECT_KEY}" -D"sonar.host.url=${SONAR_HOST_URL}" -D"sonar.login=${SONAR_TOKEN}" -X
+      - echo Installing dependencies...
+      - npm install
   pre_build:
     commands:
-      - echo Logging in to Amazon ECR...
-      - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
-      - echo Logging in to Docker Hub...
-      - echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+      - echo Building project...
+      - npm run build --verbose
   build:
     commands:
-      - echo Building the Docker image...
-      - echo ID_scFhpyaE
-      - docker build -t $IMAGE_NAME:$IMAGE_TAG -f Dockerfile .
-      - docker tag $IMAGE_NAME:$IMAGE_TAG $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO:$IMAGE_TAG
+      - echo ID_H8h5fpfh
+      - echo Creating tar.gz archive of build files...
+      - cd build
+      - tar -czvf ../PLN2000021.tar.gz *
   post_build:
     commands:
-      - echo Pushing the Docker image to ECR...
-      - docker push $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO:$IMAGE_TAG
+      - echo Pushing artifacts...
 artifacts:
   files:
-    - none
+    - PLN2000021.tar.gz
