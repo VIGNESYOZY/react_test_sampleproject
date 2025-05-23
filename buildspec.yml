@@ -14,7 +14,7 @@ phases:
       - export SONAR_PROJECT_KEY=${SONAR_PROJECT_KEY}
       - export SONAR_TOKEN=${SONAR_TOKEN}
       - export SONAR_HOST_URL=${SONAR_HOST_URL}
-      - sonar-scanner -D"sonar.projectKey=${SONAR_PROJECT_KEY}" -D"sonar.host.url=${SONAR_HOST_URL}" -D"sonar.login=${SONAR_TOKEN}" -X
+      - sonar-scanner -D "sonar.projectKey=${SONAR_PROJECT_KEY}" -D "sonar.host.url=${SONAR_HOST_URL}" -D "sonar.login=${SONAR_TOKEN}" -X
       - echo Installing dependencies...
       - npm install
   pre_build:
