@@ -14,9 +14,6 @@ phases:
       - export SONAR_PROJECT_KEY=${SONAR_PROJECT_KEY}
       - export SONAR_TOKEN=${SONAR_TOKEN}
       - export SONAR_HOST_URL=${SONAR_HOST_URL}
-      - echo "$SONAR_PROJECT_KEY"
-      - echo "$SONAR_HOST_URL"
-      - echo "$SONAR_TOKEN"
       - sonar-scanner -D "sonar.projectKey=${SONAR_PROJECT_KEY}" -D "sonar.host.url=${SONAR_HOST_URL}" -D "sonar.login=${SONAR_TOKEN}" -X
       - echo Installing dependencies...
       - npm install
@@ -26,13 +23,13 @@ phases:
       - npm run build --verbose
   build:
     commands:
-      - echo ID_H8h5fpfh
+      - echo ID_q6Wdhhav
       - echo Creating tar.gz archive of build files...
       - cd build
-      - tar -czvf ../PLN2000021.tar.gz *
+      - tar -czvf ../PLN2000022.tar.gz *
   post_build:
     commands:
       - echo Pushing artifacts...
 artifacts:
   files:
-    - PLN2000021.tar.gz
+    - PLN2000022.tar.gz
