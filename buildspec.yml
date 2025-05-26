@@ -2,19 +2,19 @@ version: '0.2'
 phases:
   install:
     runtime-versions:
-      nodejs: 16.20.2
+      nodejs: 22.14.0
     commands:
       - echo Installing unzip utility...
       - (apt-get update && apt-get install -y unzip) || (yum install -y unzip)
       - echo Downloading SonarQube Scanner...
-      - 'wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip'
+      - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
       - unzip sonar-scanner-cli-4.6.2.2472-linux.zip
-      - 'export PATH=$PATH:$(pwd)/sonar-scanner-4.6.2.2472-linux/bin'
+      - export PATH=$PATH:$(pwd)/sonar-scanner-4.6.2.2472-linux/bin
       - echo Running SonarQube analysis...
-      - 'export SONAR_PROJECT_KEY=${SONAR_PROJECT_KEY}'
-      - 'export SONAR_TOKEN=${SONAR_TOKEN}'
-      - 'export SONAR_HOST_URL=${SONAR_HOST_URL}'
-      - 'sonar-scanner -D"sonar.projectKey=${SONAR_PROJECT_KEY}" -D"sonar.host.url=${SONAR_HOST_URL}" -D"sonar.login=${SONAR_TOKEN}" -X'
+      - export SONAR_PROJECT_KEY=${SONAR_PROJECT_KEY}
+      - export SONAR_TOKEN=${SONAR_TOKEN}
+      - export SONAR_HOST_URL=${SONAR_HOST_URL}
+      - sonar-scanner -D "sonar.projectKey=${SONAR_PROJECT_KEY}" -D "sonar.host.url=${SONAR_HOST_URL}" -D "sonar.login=${SONAR_TOKEN}" -X
       - echo Installing dependencies...
       - npm install
   pre_build:
@@ -23,13 +23,13 @@ phases:
       - npm run build --verbose
   build:
     commands:
-      - echo ID_LVJx7Hnn
+      - echo ID_ujIbicMC
       - echo Creating tar.gz archive of build files...
       - cd build
-      - tar -czvf ../PLN1000718.tar.gz *
+      - tar -czvf ../PLN2000022.tar.gz *
   post_build:
     commands:
       - echo Pushing artifacts...
 artifacts:
   files:
-    - PLN1000718.tar.gz
+    - PLN2000022.tar.gz
